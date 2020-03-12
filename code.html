@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listenning skill</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body class="text-white" style="background-color: black;">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <h3>Listen to the text and write the translation below</h3>
+                <button id="play-btn" class="btn btn-light btn-lg btn-block">Play</button>
+                <br>
+                <div class="form-group">
+                    <textarea id="text-input" class="form-control form-control-lg" placeholder="Type the answer...."></textarea>
+                </div>
+                <br>
+                <br>
+                <button id="submit-btn" class="btn btn-light btn-lg btn-block">Submit</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const synth = window.speechSynthesis;
+
+        let voices = []
+        let current = 0
+        
+        const words = [
+            {"Hello":}
+        ]
+        
+
+        const text = document.getElementById('text-input')
+        const play = document.getElementById('play-btn')
+        const submit = document.getElementById('submit-btn')
+
+        const getVoices = () => {
+            voices = synth.getVoices()
+            voices.forEach(voice => {
+                voices.push(voice)
+            })
+        }
+
+        getVoices()
+        if(synth.onvoiceschanged !== undefined)
+            synth.onvoiceschanged = getVoices
+
+        
+        play.onclick = () => {
+            speak('ほ')
+        }
+
+        const speak = (input) => {
+            if(synth.speaking)
+            {
+                console.error('Already speaking')
+                
+            }
+            const speachText = new SpeechSynthesisUtterance(input)
+            speachText.onend = () => {
+                console.log('ended')
+            }
+            voices.forEach(voice => {
+                if(voice.lang === "ja-JP")
+                    speachText.voice = voice
+            })
+            synth.speak(speachText)
+        }
+        
+
+    </script>
+</body>
+</html>
