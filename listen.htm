@@ -84,6 +84,7 @@
                     voicesElement.add(opt)
                 }
             })
+            statusElement.innerHTML = "Voices Loaded " + voices.length
         }
         function newWord() {
             let w = getRndInteger(0, list_words.length)
@@ -105,7 +106,6 @@
             currentWord = getRndInteger(0, list_words.length)
             getVoices()
             if(synth.onvoiceschanged !== undefined) synth.onvoiceschanged = getVoices
-            statusElement.innerHTML = "Voices Loaded"
         }
 
         document.getElementById('listen-voice').addEventListener('click', () => {
