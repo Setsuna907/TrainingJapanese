@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listening</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/2.2.0/eruda.js"></script>
+    <script>eruda.init();</script>
 </head>
 <body style="background-color: black; color:white;" id="body-id">
     <div class="container">
@@ -39,6 +41,8 @@
             </div>
         </div>
     </div>
+
+    
     
     <script>
 
@@ -78,13 +82,15 @@
             if (voices.length !== 0) return
             voices = synth.getVoices()
             voices.forEach(voice => {
-                if(voice.lang === 'ja-JP') {
+                if(voice.lang === 'ja-JP' || voice.lang === 'ja_JP' || voice.lang === 'jpn-JPN')  {
                     let opt = document.createElement('option')
                     opt.text = voice.name
                     voicesElement.add(opt)
+                    console.log('added')
                 }
+                console.log(voice.lang)
             })
-            statusElement.innerHTML = "Voices Loaded " + voices.length
+            statusElement.innerHTML = "Voices Loaded: " + voices.length
         }
         function newWord() {
             let w = getRndInteger(0, list_words.length)
@@ -113,13 +119,17 @@
                 return
             const speechText = new SpeechSynthesisUtterance(list_words[currentWord][0])
             speechText.onend = () => {
-                console.log('ended' + list_words[currentWord][0])
+                console.log('ended')
                 statusElement.innerHTML = "Type the meaning above"
             }
             voices.forEach(voice => {
                 if(voice.name === voicesElement.options[voicesElement.selectedIndex].value)
-                    speechText.voice = voice
+                    {
+                        speechText.voice = voice
+                        console.log(voice.name)
+                    }
             })
+            console.log(speechText.voice.lang)
             synth.speak(speechText)
             statusElement.innerHTML = "Listen"
 
